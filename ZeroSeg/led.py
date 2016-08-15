@@ -3,9 +3,7 @@
 
 import time
 
-from max7219.font import DEFAULT_FONT
-from max7219.rotate8x8 import rotate
-
+from ZeroSeg.font import DEFAULT_FONT
 
 class constants(object):
     MAX7219_REG_NOOP = 0x0
