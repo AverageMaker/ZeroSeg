@@ -21,23 +21,16 @@ I recommend using a fresh Raspbian image to avoid any conflicts.
  2. Boot (power on) your Raspberry Pi. The displays may light up, this is perfectly normal.
  3. In a terminal window, update Raspbian using ***sudo apt-get update*** and then ***sudo apt-get upgrade***.
  4. Next run ***sudo raspi-config*** and enable SPI. Select option 9 '***Advanced Options***' and then option 5 '***SPI***'. Select ***Yes*** to enable the SPI interface and hit enter.
- 5. Exit the config tool by selecting '***Finish'***, and select to reboot your Raspberry Pi
- 6. Once booted again, run ***sudo apt-get install git build-essential python-dev***. Enter 'Y' when prompted.
- 7. Enter ***cd*** in the terminal to ensure you're in the home directory
- 8. Next run ***git clone https://github.com/AverageManVsPi/ZeroSeg.git*** to download the Skeleseg code library to your Pi.
- 9. Enter ***cd Skeleseg*** to go into your new Skeleseg directory
- 10. Next run ***sudo python setup.py install***
- 11. Optional: To delete the files you won't need, and reduce clutter, run ***rm LICENSE.md***, ***rm README.md*** and ***rm setup.py***.
+ 5. Exit the config tool by selecting '***Finish'***
+ 6. Reboot your Raspberry Pi by entering 'sudo reboot' and hit enter
+ 7. Once rebooted, run ***sudo apt-get install git build-essential python-dev***. Enter 'Y' when prompted, and hit enter. Let the install run (the displays may light up at this point if not already).
+ 8. Enter ***cd*** in the terminal and hit enter, to ensure you're in the home directory
+ 9. Next run ***git clone https://github.com/AverageManVsPi/ZeroSeg.git*** to download the ZeroSeg code library to your Pi.
+ 10. Enter ***cd ZeroSeg*** to enter your new ZeroSeg directory
+ 11. Next run ***sudo python setup.py install***
+ 12. Optional: To delete the files you won't need, and reduce clutter, whilst in the ZeroSeg directory run ***rm LICENSE.md***, ***rm README.md*** and ***rm setup.py***.
  13. With the files now downloaded, complete the SPI setup. First go into the library directory by using ***cd ZeroSeg***
- 14. *NOT SURE WE NEED THIS* Now run ***sudo apt-get install python-dev python-pip***
- 15. Next run ***sudo pip install spidev***
- 16. **IGNORE** [already done this -  ***sudo python setup.py install***]
- 17. Finally, run ***dmesg | grep spi*** to make sure the devices are successfully installed in /dev. You should see something similar to the message below:
-
-.
-
-    crw------- 1 root root 153, 0 Jan  1  1970 /dev/spidev0.0
-    crw------- 1 root root 153, 1 Jan  1  1970 /dev/spidev0.1
+ 15. Next run ***sudo pip install spidev*** and setup is complete.
     
 Run Example Code
 ------------
@@ -47,10 +40,9 @@ To make sure everything's working as it should, run the test script.
  2. Now enter ***cd ZeroSeg*** - this will take you to the main ZeroSeg directory
  3. Next enter ***cd examples*** to go to the example script directory
  4. To run the test script, run ***sudo python zeroseg_example.py***
- 5. The displays should show the date, then the brightness should fade in and out. The date will then scroll left, followed by the time being displayed. Next the display will count up from a negative number, followed by hex numbers and finally random numbers.
+ 5. The displays should show the date, then the brightness should fade in and out. The date will then scroll left, followed by the time being displayed. Next the display will count up from a negative number, followed by hex numbers and finally random number count.
 
-*NOTE:* By default, SPI is only accessible by root (hence using `sudo` above). Follow these 
-instructions to create an spi group, and adding your user to that group, so you don't have to
+*NOTE:* By default, SPI is only accessible by root (hence using `sudo` above). Follow these instructions to create an spi group, and adding your user to that group, so you don't have to
 run as root: http://quick2wire.com/non-root-access-to-spi-on-the-pi
 
 Coding Basics
