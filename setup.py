@@ -10,5 +10,5 @@ setup(
     license = "MIT",
     keywords = "raspberry pi rpi led max7219 matrix seven segment zeroseg",
     url = "https://github.com/sav25/zeroseg",
-    packages=['zeroseg'],
+    packages=['ZeroSeg'],
 )
