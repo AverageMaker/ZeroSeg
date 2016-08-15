@@ -23,14 +23,14 @@ I recommend using a fresh Raspbian image to avoid any conflicts.
  4. Next run ***sudo raspi-config*** and enable SPI. Select option 9 '***Advanced Options***' and then option 5 '***SPI***'. Select ***Yes*** to enable the SPI interface and hit enter.
  5. Exit the config tool by selecting '***Finish'***
  6. Reboot your Raspberry Pi by entering 'sudo reboot' and hit enter
- 7. Once rebooted, run ***sudo apt-get install git build-essential python-dev***. Enter 'Y' when prompted, and hit enter. Let the install run (the displays may light up at this point if not already).
+ 7. Once rebooted, run ***sudo apt-get install git build-essential python-dev***. Enter 'Y' when prompted, and hit enter. Let the install run.
  8. Enter ***cd*** in the terminal and hit enter, to ensure you're in the home directory
  9. Next run ***git clone https://github.com/AverageManVsPi/ZeroSeg.git*** to download the ZeroSeg code library to your Pi.
  10. Enter ***cd ZeroSeg*** to enter your new ZeroSeg directory
  11. Next run ***sudo python setup.py install***
- 12. Optional: To delete the files you won't need, and reduce clutter, whilst in the ZeroSeg directory run ***rm LICENSE.md***, ***rm README.md*** and ***rm setup.py***.
- 13. With the files now downloaded, complete the SPI setup. First go into the library directory by using ***cd ZeroSeg***
- 15. Next run ***sudo pip install spidev*** and setup is complete.
+ 12. With the files now downloaded, complete the SPI setup. First go into the library directory by using ***cd ZeroSeg***
+ 15. Next run ***sudo pip install spidev***
+ 16. Optional: To delete the files you probably won't need, and reduce clutter, whilst in the ZeroSeg directory run ***rm LICENSE.md***, ***rm README.md*** and ***rm setup.py***.
     
 Run Example Code
 ------------
