@@ -4,7 +4,8 @@ A code library for the ZeroSeg Raspberry Pi Zero add-on board from [ThePiHut.com
 
 IMAGE
 
-NEED CASCADED 2??
+**NEED CASCADED 2??**
+**ADD IMAGES TO CODE EXAMPLE SECTIONS (ONCE RETAIL BOARD SOLDERED)?**
 
 The ZeroSeg contains 2 (4-character) 7-segment displays, giving you the ability to display 8-digit data on a tiny Pi Zero sized add-on board. It also holds 2 tactile buttons for controlling data brightness or any other element of your project.
 
