@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import max7219.led as led
+import ZeroSeg.led as led
 import time
 import random
 from datetime import datetime
@@ -65,7 +65,7 @@ device.clear()
 
 # Negative numbers
 for x in range(-30, 128):
-    device.write_number(deviceId=0, value=x)
+    device.write_number(deviceId=1, value=x)
     time.sleep(0.05)
 
 # Hex numbers
