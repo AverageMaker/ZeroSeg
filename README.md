@@ -2,20 +2,22 @@ ZeroSeg
 ==============
 A code library for the ZeroSeg Raspberry Pi Zero add-on board from [ThePiHut.com.](https://thepihut.com/zeroseg)
 
-IMAGE
+![ZeroSeg on a Raspberry Pi Zero](http://img.photobucket.com/albums/v11/noisyfest/ZeroSeg-Main_zpsvzs47kds.jpg)
 
-**NEED CASCADED 2??**
-**ADD IMAGES TO CODE EXAMPLE SECTIONS (ONCE RETAIL BOARD SOLDERED)?**
+The ZeroSeg contains two (4-character) 7-segment displays, giving you the ability to display 8-digit data on a tiny Pi Zero sized add-on board. It also holds 2 tactile buttons for controlling data, brightness or any other element of your project.
 
-The ZeroSeg contains 2 (4-character) 7-segment displays, giving you the ability to display 8-digit data on a tiny Pi Zero sized add-on board. It also holds 2 tactile buttons for controlling data brightness or any other element of your project.
+The ZeroSeg works with any 40 GPIO pin Raspberry Pi – not just the Pi Zero - and is controlled by a MAX7219CNG integrated circuit, which manages the display of each LED segment, requiring very few GPIO pins to run the board.
 
-The ZeroSeg is controlled by a MAX7219CNG IC, which manages the display of each LED segment in a way that means only one segment is ever lit at any one time - albeit switching so fast that the human eye sees all 8 characters with no flickering.
+![ZeroSeg on a Raspberry Pi B+](http://img.photobucket.com/albums/v11/noisyfest/Pi3-Angled_zpszzgrsp1z.jpg)
 
-This board is designed and wired in the exact same way as the common generic 7-segment modules available, allowing the use of existing code and libraries to easily create Pi Zero projects with 8 character displays.
+This board’s circuit is wired in the exact same way as generic 7-segment modules, allowing the use of existing code and libraries to easily create Pi Zero projects with 8-character displays.
+
 
 This code library was originally cloned from Richard Hull's excellent open source MAX7219 library [right here on GitHub.](https://github.com/rm-hull/max7219)
 
 This library makes it easy to scroll numbers and text along the ZeroSeg's twin 7-segment displays, running via the MAX7219 IC with just a few simple lines of code.
+
+![ZeroSeg Displays](http://img.photobucket.com/albums/v11/noisyfest/ZeroSeg_Lit_2_zpsblkxqjix.jpg)
 Raspberry Pi Setup & Installation
 ------------
 I recommend using a fresh Raspbian image to avoid any conflicts.
@@ -42,9 +44,7 @@ I recommend using a fresh Raspbian image to avoid any conflicts.
  
  11. Next run `sudo python setup.py install`
  
- 12. With the files now downloaded, complete the SPI setup. First go into the library directory by using `cd ZeroSeg`
- 
- 15. Next run `sudo pip install spidev`
+ 12. With the files now downloaded, complete the SPI setup. Whilst still in the ZeroSeg directory, run the following command and hit enter `sudo pip install spidev`
  
  16. Optional: To delete the files you probably won't need, and reduce clutter, whilst in the ZeroSeg directory run `rm LICENSE.md`, `rm README.md` and `rm setup.py`.
     
@@ -61,9 +61,6 @@ To make sure everything's working as it should, run the main test script:
  4. To run the test script, run `sudo python zeroseg_example.py`
  
  5. The displays should show the date, then the brightness should fade in and out. The date will then scroll left, followed by the time being displayed. Next the display will count up from a negative number, followed by hex numbers and finally random number count.
-
-**NOTE:** By default, SPI is only accessible by root (hence using `sudo` above). Follow these instructions to create an spi group, and adding your user to that group, so you don't have to
-run as root: http://quick2wire.com/non-root-access-to-spi-on-the-pi
 
 Other Example Scripts
 ------------
@@ -199,7 +196,7 @@ while True:
 ```
 
 **Button Control**
-We added a button each side of the display, because w figured they would come in handy for a lot of projects using these displays. Everyone likes buttons!
+We added a button each side of the display, because we figured they would come in handy for a lot of projects using these displays. Everyone likes buttons!
 
 The buttons are hard-wired to GPIO 17 (left button) and GPIO 26 (right button). To use them is just a case of using the RPi.GPIO library which is a very common method.
 
@@ -280,38 +277,6 @@ while True:
             time.sleep(0.5)
 
     time.sleep(0.2)
-```
-
-**Button Code**
-The examples directory includes a button script (*button_example.py*) that offers simple example code as a basis for your projects.
-
-The code will print which button is being pressed, when pressed individually:
-
-```python
-import time
-import RPi.GPIO as GPIO
-
-switch1 = 17
-switch2 = 26
-
-GPIO.setmode(GPIO.BCM) # Use BCM GPIO numbers
-
-GPIO.setup(switch1, GPIO.IN)
-GPIO.setup(switch2, GPIO.IN)
-
-print "start"
-
-while True:
-    if not GPIO.input(switch1):
-        print "Button 1 pressed"
-        time.sleep(0.5)
-            
-    elif not GPIO.input(switch2):
-        print "Button 2 pressed"
-        time.sleep(0.5)
-     
-    else:
-        pass
 ```
    
 GPIO pin-outs
