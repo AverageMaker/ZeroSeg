@@ -3,7 +3,7 @@
 import ZeroSeg.led as led
 import time
 
-device = led.sevensegment(cascaded=2)
+device = led.sevensegment()
 
 while True:
     device.write_number(deviceId=0, value=1234)

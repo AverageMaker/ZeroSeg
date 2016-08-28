@@ -42,7 +42,7 @@ def clock(device, deviceId, seconds):
         time.sleep(1)
 
 
-device = led.sevensegment(cascaded=1)
+device = led.sevensegment()
 
 # Alphabet Text
 device.show_message("HELLO ZEROSEG")

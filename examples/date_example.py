@@ -24,9 +24,9 @@ def date(device, deviceId):
     device.letter(deviceId, 2, int(year / 10))     # Tens
     device.letter(deviceId, 1, year % 10)     # Ones
 
-device = led.sevensegment(cascaded=2)
+device = led.sevensegment()
 
 while True:
-    date(device, 1)
+    date(device, 0)
     time.sleep(900) #Update every 15 minutes
     device.clear()
