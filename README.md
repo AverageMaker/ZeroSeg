@@ -1,6 +1,6 @@
-ZeroSeg 
+ZeroSeg
 ==============
-A code library for the ZeroSeg Raspberry Pi Zero add-on board from [ThePiHut.com.](https://thepihut.com/zeroseg)
+A code library for the ZeroSeg Raspberry Pi Zero add-on board from [ThePiHut.com](https://thepihut.com/zeroseg).
 
 ![ZeroSeg on a Raspberry Pi Zero](http://img.photobucket.com/albums/v11/noisyfest/ZeroSeg-Main_zpsvzs47kds.jpg)
 
@@ -23,43 +23,43 @@ Raspberry Pi Setup & Installation
 I recommend using a fresh Raspbian image to avoid any conflicts.
 
  1. Download and install the latest copy of Raspbian from here: https://www.raspberrypi.org/downloads/raspbian/
- 
+
  2. Boot (power on) your Raspberry Pi. The displays may light up, this is perfectly normal.
- 
+
  3. In a terminal window, update Raspbian using `sudo apt-get update` and then `sudo apt-get upgrade`.
- 
+
  4. Next run `sudo raspi-config` and enable SPI. Select option 9 `Advanced Options` and then option 5 `SPI`. Select ***Yes*** to enable the SPI interface and hit enter.
- 
+
  5. Exit the config tool by selecting ***Finish***
- 
+
  6. Reboot your Raspberry Pi by entering 'sudo reboot' and hit enter
- 
- 7. Once rebooted, run `sudo apt-get install git build-essential python-dev`. Enter 'Y' when prompted, and hit enter. Let the install run.
- 
+
+ 7. Once rebooted, run `sudo apt-get install git build-essential python-dev python-pip`. Enter 'Y' when prompted, and hit enter. Let the install run.
+
  8. Enter `cd` in the terminal and hit enter, to ensure you're in the home directory
- 
+
  9. Next run `git clone https://github.com/AverageManVsPi/ZeroSeg.git` to download the ZeroSeg code library to your Pi.
- 
+
  10. Enter `cd ZeroSeg` to enter your new ZeroSeg directory
- 
+
  11. Next run `sudo python setup.py install`
- 
+
  12. With the files now downloaded, complete the SPI setup. Whilst still in the ZeroSeg directory, run the following command and hit enter `sudo pip install spidev`
- 
+
  16. Optional: To delete the files you probably won't need, and reduce clutter, whilst in the ZeroSeg directory run `rm LICENSE.md`, `rm README.md` and `rm setup.py`.
-    
+
 Run the Code Example
 ------------
 To make sure everything's working as it should, run the main test script:
 
  1. Enter `cd` in the terminal to make sure we're starting from the same place (the home directory)
- 
+
  2. Now enter `cd ZeroSeg` - this will take you to the main ZeroSeg directory
- 
+
  3. Next enter `cd examples` to go to the example script directory
- 
+
  4. To run the test script, run `sudo python zeroseg_example.py`
- 
+
  5. The displays should show the date, then the brightness should fade in and out. The date will then scroll left, followed by the time being displayed. Next the display will count up from a negative number, followed by hex numbers and finally random number count.
 
 Other Example Scripts
@@ -91,7 +91,7 @@ Start your file by importing and initialising the `sevensegment` class:
 import ZeroSeg.led as led
 device = led.sevensegment()
 ```
-You can now start with something simple like displaying a number for 5 seconds on one of the displays. 
+You can now start with something simple like displaying a number for 5 seconds on one of the displays.
 
 ```python
 import ZeroSeg.led as led
@@ -220,11 +220,11 @@ while True:
     if not GPIO.input(switch1):
         print "Button 1 pressed"
         time.sleep(0.5)
-            
+
     elif not GPIO.input(switch2):
         print "Button 2 pressed"
         time.sleep(0.5)
-     
+
     else:
         pass
 ```
@@ -257,7 +257,7 @@ while True:
     print "run - level is at ", level
     device.write_number(deviceId=0, value=12345678)
     device.brightness(level)
-    
+
     if not GPIO.input(switch1):
         if level == 1:
             print "minimum brightness reached"
@@ -266,7 +266,7 @@ while True:
             level = level -1
             print "Button 1 pressed - brightness down to ", level
             time.sleep(0.5)
-            
+
     elif not GPIO.input(switch2):
         if level == 15:
             print "Max brightness reached"
@@ -278,7 +278,7 @@ while True:
 
     time.sleep(0.2)
 ```
-   
+
 GPIO pin-outs
 -------------
 
