@@ -347,7 +347,20 @@ class sevensegment(device):
             self.letter(deviceId, position, char, dot=dp, redraw=False)
             position -= 1
 
-        self.flush()
+	self.flush()
+
+    def write_text(self, deviceId, text):
+	"""
+	Outputs the text (as near as possible) on the specific device. If
+	text is larger than 8 characters, then an OverflowError is raised.
+	"""
+	assert 0 <= deviceId < self._cascaded, "Invalid deviceId: {0}".format(deviceId)
+	if len(text) > 8:
+	    raise OverflowError('{0} too large for display'.format(text))
+	for pos, char in enumerate(text.ljust(8)[::-1]):
+	    self.letter(deviceId, constants.MAX7219_REG_DIGIT0 + pos, char, redraw=False)
+
+	self.flush()
 
     def show_message(self, text, delay=0.4):
 	"""
