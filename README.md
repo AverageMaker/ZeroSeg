@@ -193,17 +193,17 @@ while True:
     device.clear()
 ```
 
-**Displaying Text**
-You can display a large range of letters on the ZeroSeg, however as with all 7-segment displays, not every character will work (think about 'W' for example).
+**Displaying Static Text**
+You can display static text on the ZeroSeg, however as with all 7-segment displays, not every character will work (think about 'W' for example).
 
-Where a letter isn't able to be displayed, an underscore will take its place:
+Where a letter isn't able to be displayed, an underscore will take its place. Tip: you can mix letters and numbers with this function:
 ```python
 import ZeroSeg.led as led
 import time
 
 device = led.sevensegment(cascaded=2)
 
-device.write_text(1,"HELLO WORLD")
+device.write_text(1,"HELLO")
 
 time.sleep(3)
 device.clear()
@@ -557,6 +557,117 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY
 
 
 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
