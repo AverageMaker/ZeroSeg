@@ -40,11 +40,11 @@ def clock(device, deviceId, seconds):
         device.letter(deviceId, 1, minute % 10)        # Ones
         time.sleep(1)
 
-device = led.sevensegment(cascaded=2)
+device = led.sevensegment()
 
 while True:
-    date(device, 1)
+    date(device, 0)
     time.sleep(5)
     device.clear()
-    clock(device, 1, seconds=5)
+    clock(device, 0, seconds=5)
     device.clear()

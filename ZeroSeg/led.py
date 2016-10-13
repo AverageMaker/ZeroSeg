@@ -3,7 +3,7 @@
 
 import time
 
-from ZeroSeg.font import DEFAULT_FONT
+
 
 class constants(object):
     MAX7219_REG_NOOP = 0x0
@@ -25,9 +25,7 @@ class constants(object):
 class device(object):
     """
     Base class for handling multiple cascaded MAX7219 devices.
-    Callers should generally pick either the :py:class:`sevensegment` or
-    :py:class:`matrix` subclasses instead depending on which application
-    is required.
+    Callers should generally pick the :py:class:`sevensegment` class
 
     A buffer is maintained which holds the bytes that will be cascaded
     every time :py:func:`flush` is called.
@@ -220,10 +218,14 @@ class sevensegment(device):
     numbers can be either integers or floating point (with the number of
     decimal points configurable).
     """
+    _UNDEFINED = 0x08
     _RADIX = {8: 'o', 10: 'f', 16: 'x'}
+    # Some letters cannot be represented by 7 segments, so dictionay lookup
+    # will default to _UNDEFINED (an underscore) instead.
     _DIGITS = {
         ' ': 0x00,
         '-': 0x01,
+	'_': 0x08,
         '0': 0x7e,
         '1': 0x30,
         '2': 0x6d,
@@ -234,12 +236,60 @@ class sevensegment(device):
         '7': 0x70,
         '8': 0x7f,
         '9': 0x7b,
-        'a': 0x77,
+	'a': 0x7d,
         'b': 0x1f,
-        'c': 0x4e,
+	'c': 0x0d,
         'd': 0x3d,
-        'e': 0x4f,
-        'f': 0x47
+	'e': 0x6f,
+	'f': 0x47,
+	'g': 0x7b,
+	'h': 0x17,
+	'i': 0x10,
+	'j': 0x18,
+	# 'k': cant represent
+	'l': 0x06,
+	# 'm': cant represent
+	'n': 0x15,
+	'o': 0x1d,
+	'p': 0x67,
+	'q': 0x73,
+	'r': 0x05,
+	's': 0x5b,
+	't': 0x0f,
+	'u': 0x1c,
+	'v': 0x1c,
+	# 'w': cant represent
+	# 'x': cant represent
+	'y': 0x3b,
+	'z': 0x6d,
+	'A': 0x77,
+	'B': 0x7f,
+	'C': 0x4e,
+	'D': 0x7e,
+	'E': 0x4f,
+	'F': 0x47,
+	'G': 0x5e,
+	'H': 0x37,
+	'I': 0x30,
+	'J': 0x38,
+	# 'K': cant represent
+	'L': 0x0e,
+	# 'M': cant represent
+	'N': 0x76,
+	'O': 0x7e,
+	'P': 0x67,
+	'Q': 0x73,
+	'R': 0x46,
+	'S': 0x5b,
+	'T': 0x0f,
+	'U': 0x3e,
+	'V': 0x3e,
+	# 'W': cant represent
+	# 'X': cant represent
+	'Y': 0x3b,
+	'Z': 0x6d,
+	',': 0x80,
+	'.': 0x80
     }
 
     def letter(self, deviceId, position, char, dot=False, redraw=True):
@@ -249,7 +299,7 @@ class sevensegment(device):
         at the given deviceId / position.
         """
         assert dot in [0, 1, False, True]
-        value = self._DIGITS[str(char)] | (dot << 7)
+	value = self._DIGITS.get(str(char), self._UNDEFINED) | (dot << 7)
         self.set_byte(deviceId, position, value, redraw)
 
     def write_number(self, deviceId, value, base=10, decimalPlaces=0,
@@ -297,139 +347,32 @@ class sevensegment(device):
             self.letter(deviceId, position, char, dot=dp, redraw=False)
             position -= 1
 
-        self.flush()
+	self.flush()
+
+    def write_text(self, deviceId, text):
+	"""
+	Outputs the text (as near as possible) on the specific device. If
+	text is larger than 8 characters, then an OverflowError is raised.
+	"""
+	assert 0 <= deviceId < self._cascaded, "Invalid deviceId: {0}".format(deviceId)
+	if len(text) > 8:
+	    raise OverflowError('{0} too large for display'.format(text))
+	for pos, char in enumerate(text.ljust(8)[::-1]):
+	    self.letter(deviceId, constants.MAX7219_REG_DIGIT0 + pos, char, redraw=False)
+
+	self.flush()
+
+    def show_message(self, text, delay=0.4):
+	"""
+	Transitions the text message across the devices from left-to-right
+	"""
+	# Add some spaces on (same number as cascaded devices) so that the
+	# message scrolls off to the left completely.
+	text += ' ' * self._cascaded * 8
+	for value in text:
+	    time.sleep(delay)
+	    self.scroll_right(redraw=False)
+	    self._buffer[0] = self._DIGITS.get(value, self._UNDEFINED)
+	    self.flush()
 
 
-class matrix(device):
-    """
-    Implementation of MAX7219 devices cascaded with a series of 8x8 LED
-    matrix devices. It provides a convenient methods to write letters
-    to specific devices, to scroll a large message from left-to-right, or
-    to set specific pixels. It is assumed the matrices are linearly aligned.
-    """
-
-    _invert = 0
-    _orientation = 0
-
-    def letter(self, deviceId, asciiCode, font=None, redraw=True):
-        """
-        Writes the ASCII letter code to the given device in the specified font.
-        """
-        assert 0 <= asciiCode < 256
-
-        if not font:
-            font = DEFAULT_FONT
-
-        col = constants.MAX7219_REG_DIGIT0
-        for value in font[asciiCode]:
-            if col > constants.MAX7219_REG_DIGIT7:
-                self.clear(deviceId)
-                raise OverflowError('Font for \'{0}\' too large for display'.format(asciiCode))
-
-            self.set_byte(deviceId, col, value, redraw=False)
-            col += 1
-
-        if redraw:
-            self.flush()
-
-    def scroll_up(self, redraw=True):
-        """
-        Scrolls the underlying buffer (for all cascaded devices) up one pixel
-        """
-        self._buffer = [value >> 1 for value in self._buffer]
-        if redraw:
-            self.flush()
-
-    def scroll_down(self, redraw=True):
-        """
-        Scrolls the underlying buffer (for all cascaded devices) down one pixel
-        """
-        self._buffer = [(value << 1) & 0xff for value in self._buffer]
-        if redraw:
-            self.flush()
-
-    def show_message(self, text, font=None, delay=0.05):
-        """
-        Transitions the text message across the devices from left-to-right
-        """
-        # Add some spaces on (same number as cascaded devices) so that the
-        # message scrolls off to the left completely.
-
-        if not font:
-            font = DEFAULT_FONT
-
-        text += ' ' * self._cascaded
-        src = (value for asciiCode in text for value in font[ord(asciiCode)])
-
-        for value in src:
-            time.sleep(delay)
-            self.scroll_left(redraw=False)
-            self._buffer[-1] = value
-            self.flush()
-
-    def pixel(self, x, y, value, redraw=True):
-        """
-        Sets (value = 1) or clears (value = 0) the pixel at the given
-        co-ordinate. It may be more efficient to batch multiple pixel
-        operations together with redraw=False, and then call
-        :py:func:`flush` to redraw just once.
-        """
-        assert 0 <= x < len(self._buffer)
-        assert 0 <= y < self.NUM_DIGITS
-
-        if value:
-            self._buffer[x] |= (1 << y)
-        else:
-            self._buffer[x] &= ~(1 << y)
-
-        if redraw:
-            self.flush()
-
-    def _rotate(self, buf):
-        """
-        Rotates tiles in the buffer by the given orientation
-        """
-        result = []
-        for i in range(0, self._cascaded * self.NUM_DIGITS, self.NUM_DIGITS):
-            tile = buf[i:i + self.NUM_DIGITS]
-            for _ in range(self._orientation // 90):
-                tile = rotate(tile)
-
-            result += tile
-
-        return result
-
-    def _preprocess_buffer(self, buf):
-        """
-        Inverts and/or orientates the buffer before flushing according to
-        user set parameters
-        """
-        if self._invert:
-            buf = [~x & 0xff for x in buf]
-
-        if self._orientation:
-            buf = self._rotate(buf)
-
-        return super(matrix, self)._preprocess_buffer(buf)
-
-    def invert(self, value, redraw=True):
-        """
-        Sets whether the display should be inverted or not when displaying
-        letters.
-        """
-        assert value in [0, 1, False, True]
-
-        self._invert = value
-        if redraw:
-            self.flush()
-
-    def orientation(self, angle, redraw=True):
-        """
-        Sets the orientation (angle should be 0, 90, 180 or 270) at which
-        the characters are displayed.
-        """
-        assert angle in [0, 90, 180, 270]
-
-        self._orientation = angle
-        if redraw:
-            self.flush()

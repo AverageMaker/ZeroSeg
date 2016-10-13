@@ -42,10 +42,16 @@ def clock(device, deviceId, seconds):
         time.sleep(1)
 
 
-device = led.sevensegment(cascaded=2)
+device = led.sevensegment()
+
+# Alphabet Text
+device.show_message("HELLO ZEROSEG")
+device.show_message("0123456789 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ", delay=0.25)
 
 # Digit futzing
-date(device, 1)
+date(device, 0)
+time.sleep(5)
+device.clear()
 clock(device, 0, seconds=10)
 
 # Brightness
@@ -65,16 +71,13 @@ device.clear()
 
 # Negative numbers
 for x in range(-30, 128):
-    device.write_number(deviceId=1, value=x)
+    device.write_number(deviceId=0, value=x)
     time.sleep(0.05)
 
 # Hex numbers
 for x in range(0xfa909, 0xfab2a):
-    device.write_number(deviceId=1, value=x, base=16, leftJustify=True)
+    device.write_number(deviceId=0, value=x, base=16, leftJustify=True)
     time.sleep(0.025)
-
-device.clear(deviceId=1)
-time.sleep(1)
 
 device.clear()
 time.sleep(1)
@@ -88,5 +91,4 @@ for x in range(500):
     b -= 1
     c = a + b / (random.random() * 43)
     device.write_number(deviceId=0, value=a, decimalPlaces=1)
-    device.write_number(deviceId=1, value=b, zeroPad=True)
     time.sleep(0.5)
