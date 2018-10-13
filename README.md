@@ -2,13 +2,13 @@ ZeroSeg
 ==============
 A code library for the ZeroSeg Raspberry Pi Zero add-on board from [ThePiHut.com](https://thepihut.com/zeroseg).
 
-![ZeroSeg on a Raspberry Pi Zero](https://github.com/AverageManVsPi/Imagestore/blob/master/ZeroSeg-Main_zpsvzs47kds.JPG?raw=true)
+![ZeroSeg on a Raspberry Pi Zero](https://github.com/AverageMaker/Imagestore/blob/master/ZeroSeg-Main_zpsvzs47kds.JPG?raw=true)
 
 The ZeroSeg contains two (4-character) 7-segment displays, giving you the ability to display 8-digit data on a tiny Pi Zero sized add-on board. It also holds 2 tactile buttons for controlling data, brightness or any other element of your project.
 
 The ZeroSeg works with any 40 GPIO pin Raspberry Pi – not just the Pi Zero - and is controlled by a MAX7219CNG integrated circuit, which manages the display of each LED segment, requiring very few GPIO pins to run the board.
 
-![ZeroSeg on a Raspberry Pi B+](https://github.com/AverageManVsPi/Imagestore/blob/master/Pi3-Angled_zpszzgrsp1z.JPG?raw=trueg)
+![ZeroSeg on a Raspberry Pi B+](https://github.com/AverageMaker/Imagestore/blob/master/Pi3-Angled_zpszzgrsp1z.JPG?raw=trueg)
 
 This board’s circuit is wired in the exact same way as generic 7-segment modules, allowing the use of existing code and libraries to easily create Pi Zero projects with 8-character displays.
 
@@ -17,7 +17,7 @@ This code library was originally cloned from Richard Hull's excellent open sourc
 
 This library makes it easy to scroll numbers and text along the ZeroSeg's twin 7-segment displays, running via the MAX7219 IC with just a few simple lines of code.
 
-![ZeroSeg Displays](https://github.com/AverageManVsPi/Imagestore/blob/master/ZeroSeg_Lit_2_zpsblkxqjix.JPG?raw=true)
+![ZeroSeg Displays](https://github.com/AverageMaker/Imagestore/blob/master/ZeroSeg_Lit_2_zpsblkxqjix.JPG?raw=true)
 Raspberry Pi Setup & Installation
 ------------
 I recommend using a fresh Raspbian image to avoid any conflicts.
@@ -38,7 +38,7 @@ I recommend using a fresh Raspbian image to avoid any conflicts.
 
  8. Enter `cd` in the terminal and hit enter, to ensure you're in the home directory
 
- 9. Next run `git clone https://github.com/AverageManVsPi/ZeroSeg.git` to download the ZeroSeg code library to your Pi.
+ 9. Next run `git clone https://github.com/AverageMaker/ZeroSeg.git` to download the ZeroSeg code library to your Pi.
 
  10. Enter `cd ZeroSeg` to enter your new ZeroSeg directory
 
