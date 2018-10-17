@@ -13,7 +13,7 @@ The ZeroSeg works with any 40 GPIO pin Raspberry Pi – not just the Pi Zero - a
 This board’s circuit is wired in the exact same way as generic 7-segment modules, allowing the use of existing code and libraries to easily create Pi Zero projects with 8-character displays.
 
 
-This code library was originally cloned from Richard Hull's excellent open source MAX7219 library [right here on GitHub.](https://github.com/rm-hull/max7219)
+This code library was originally cloned from Richard Hull's original open source MAX7219 library [right here on GitHub.](https://github.com/rm-hull/max7219) This has since been replaced with the [luma.led_matrix](https://github.com/rm-hull/luma.led_matrix) library.
 
 This library makes it easy to scroll numbers and text along the ZeroSeg's twin 7-segment displays, running via the MAX7219 IC with just a few simple lines of code.
 
@@ -28,7 +28,7 @@ I recommend using a fresh Raspbian image to avoid any conflicts.
 
  3. In a terminal window, update Raspbian using `sudo apt-get update` and then `sudo apt-get upgrade`.
 
- 4. Next run `sudo raspi-config` and enable SPI. Select option 9 `Advanced Options` and then option 5 `SPI`. Select ***Yes*** to enable the SPI interface and hit enter.
+ 4. Next run `sudo raspi-config` and enable SPI. Select option 5 `Interfacing Options` and then option 4 `SPI`. Select ***Yes*** to enable the SPI interface and hit enter.
 
  5. Exit the config tool by selecting ***Finish***
 
@@ -84,7 +84,7 @@ More example scripts can be found in the examples directory, which are discussed
 
 Coding Basics
 ------------
-Whilst this library is [based on the work of Richard Hull](https://github.com/rm-hull/max7219), here are a few pointers to help get you started.
+Whilst this library is [based on the original MAX7219 work of Richard Hull](https://github.com/rm-hull/max7219) (since replaced with the [luma.led_matrix](https://github.com/rm-hull/luma.led_matrix) repo) here are a few pointers to help get you started.
 
 Extracting code from the main example script (*zeroseg_example.py*) is a great way to learn how to use the library and expand on it further for your own projects:
 
@@ -322,8 +322,7 @@ The following GPIO pins have been used in the ZeroSeg board. Power and GND lines
 All other remaining GPIO pins are available for use (if breaking out separately).
 
 | Name | Description | Physical Pin | RPi Function |
-|:----:|:-----------:|:------------:|:------------:|
-|
+| ------------- | ------------- | ------------- | ------------ | 
 | DIN  | Data In             | 19 | GPIO 10 (MOSI)    |
 | CS   | Chip Select         | 24 | GPIO 8 (SPI CE0)  |
 | CLK  | Clock               | 23 | GPIO 11 (SPI CLK) |
