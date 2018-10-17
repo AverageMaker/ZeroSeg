@@ -3,8 +3,6 @@
 
 import time
 
-
-
 class constants(object):
     MAX7219_REG_NOOP = 0x0
     MAX7219_REG_DIGIT0 = 0x1
@@ -20,7 +18,6 @@ class constants(object):
     MAX7219_REG_SCANLIMIT = 0xB
     MAX7219_REG_SHUTDOWN = 0xC
     MAX7219_REG_DISPLAYTEST = 0xF
-
 
 class device(object):
     """
@@ -67,7 +64,7 @@ class device(object):
         Send the bytes (which should comprise of alternating command,
         data values) over the SPI device.
         """
-        self._spi.xfer2(list(data))
+        self._spi.xfer(list(data), 5000000)
 
     def _values(self, position, buf):
         """
@@ -209,7 +206,6 @@ class device(object):
         if redraw:
             self.flush()
 
-
 class sevensegment(device):
     """
     Implementation of MAX7219 devices cascaded with a series of seven-segment
@@ -220,12 +216,12 @@ class sevensegment(device):
     """
     _UNDEFINED = 0x08
     _RADIX = {8: 'o', 10: 'f', 16: 'x'}
-    # Some letters cannot be represented by 7 segments, so dictionay lookup
+    # Some letters cannot be represented by 7 segments, so dictionary lookup
     # will default to _UNDEFINED (an underscore) instead.
     _DIGITS = {
         ' ': 0x00,
         '-': 0x01,
-	'_': 0x08,
+        '_': 0x08,
         '0': 0x7e,
         '1': 0x30,
         '2': 0x6d,
@@ -236,60 +232,60 @@ class sevensegment(device):
         '7': 0x70,
         '8': 0x7f,
         '9': 0x7b,
-	'a': 0x7d,
+        'a': 0x7d,
         'b': 0x1f,
-	'c': 0x0d,
+        'c': 0x0d,
         'd': 0x3d,
-	'e': 0x6f,
-	'f': 0x47,
-	'g': 0x7b,
-	'h': 0x17,
-	'i': 0x10,
-	'j': 0x18,
-	# 'k': cant represent
-	'l': 0x06,
-	# 'm': cant represent
-	'n': 0x15,
-	'o': 0x1d,
-	'p': 0x67,
-	'q': 0x73,
-	'r': 0x05,
-	's': 0x5b,
-	't': 0x0f,
-	'u': 0x1c,
-	'v': 0x1c,
-	# 'w': cant represent
-	# 'x': cant represent
-	'y': 0x3b,
-	'z': 0x6d,
-	'A': 0x77,
-	'B': 0x7f,
-	'C': 0x4e,
-	'D': 0x7e,
-	'E': 0x4f,
-	'F': 0x47,
-	'G': 0x5e,
-	'H': 0x37,
-	'I': 0x30,
-	'J': 0x38,
-	# 'K': cant represent
-	'L': 0x0e,
-	# 'M': cant represent
-	'N': 0x76,
-	'O': 0x7e,
-	'P': 0x67,
-	'Q': 0x73,
-	'R': 0x46,
-	'S': 0x5b,
-	'T': 0x0f,
-	'U': 0x3e,
-	'V': 0x3e,
-	# 'W': cant represent
-	# 'X': cant represent
-	'Y': 0x3b,
-	'Z': 0x6d,
-	',': 0x80,
-	'.': 0x80
+        'e': 0x6f,
+        'f': 0x47,
+        'g': 0x7b,
+        'h': 0x17,
+        'i': 0x10,
+        'j': 0x18,
+        # 'k': cant represent
+        'l': 0x06,
+        # 'm': cant represent
+        'n': 0x15,
+        'o': 0x1d,
+        'p': 0x67,
+        'q': 0x73,
+        'r': 0x05,
+        's': 0x5b,
+        't': 0x0f,
+        'u': 0x1c,
+        'v': 0x1c,
+        # 'w': cant represent
+        # 'x': cant represent
+        'y': 0x3b,
+        'z': 0x6d,
+        'A': 0x77,
+        'B': 0x7f,
+        'C': 0x4e,
+        'D': 0x7e,
+        'E': 0x4f,
+        'F': 0x47,
+        'G': 0x5e,
+        'H': 0x37,
+        'I': 0x30,
+        'J': 0x38,
+        # 'K': cant represent
+        'L': 0x0e,
+        # 'M': cant represent
+        'N': 0x76,
+        'O': 0x7e,
+        'P': 0x67,
+        'Q': 0x73,
+        'R': 0x46,
+        'S': 0x5b,
+        'T': 0x0f,
+        'U': 0x3e,
+        'V': 0x3e,
+        # 'W': cant represent
+        # 'X': cant represent
+        'Y': 0x3b,
+        'Z': 0x6d,
+        ',': 0x80,
+        '.': 0x80
     }
 
     def letter(self, deviceId, position, char, dot=False, redraw=True):
@@ -299,7 +295,7 @@ class sevensegment(device):
         at the given deviceId / position.
         """
         assert dot in [0, 1, False, True]
-	value = self._DIGITS.get(str(char), self._UNDEFINED) | (dot << 7)
+        value = self._DIGITS.get(str(char), self._UNDEFINED) | (dot << 7)
         self.set_byte(deviceId, position, value, redraw)
 
     def write_number(self, deviceId, value, base=10, decimalPlaces=0,
@@ -347,32 +343,32 @@ class sevensegment(device):
             self.letter(deviceId, position, char, dot=dp, redraw=False)
             position -= 1
 
-	self.flush()
+        self.flush()
 
     def write_text(self, deviceId, text):
-	"""
-	Outputs the text (as near as possible) on the specific device. If
-	text is larger than 8 characters, then an OverflowError is raised.
-	"""
-	assert 0 <= deviceId < self._cascaded, "Invalid deviceId: {0}".format(deviceId)
-	if len(text) > 8:
-	    raise OverflowError('{0} too large for display'.format(text))
-	for pos, char in enumerate(text.ljust(8)[::-1]):
-	    self.letter(deviceId, constants.MAX7219_REG_DIGIT0 + pos, char, redraw=False)
+        """
+        Outputs the text (as near as possible) on the specific device. If
+        text is larger than 8 characters, then an OverflowError is raised.
+        """
+        assert 0 <= deviceId < self._cascaded, "Invalid deviceId: {0}".format(deviceId)
+        if len(text) > 8:
+            raise OverflowError('{0} too large for display'.format(text))
+        for pos, char in enumerate(text.ljust(8)[::-1]):
+            self.letter(deviceId, constants.MAX7219_REG_DIGIT0 + pos, char, redraw=False)
 
-	self.flush()
+        self.flush()
 
     def show_message(self, text, delay=0.4):
-	"""
-	Transitions the text message across the devices from left-to-right
-	"""
-	# Add some spaces on (same number as cascaded devices) so that the
-	# message scrolls off to the left completely.
-	text += ' ' * self._cascaded * 8
-	for value in text:
-	    time.sleep(delay)
-	    self.scroll_right(redraw=False)
-	    self._buffer[0] = self._DIGITS.get(value, self._UNDEFINED)
-	    self.flush()
+        """
+        Transitions the text message across the devices from left-to-right
+        """
+        # Add some spaces on (same number as cascaded devices) so that the
+        # message scrolls off to the left completely.
+        text += ' ' * self._cascaded * 8
+        for value in text:
+            time.sleep(delay)
+            self.scroll_right(redraw=False)
+            self._buffer[0] = self._DIGITS.get(value, self._UNDEFINED)
+            self.flush()
 
 
